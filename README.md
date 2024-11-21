@@ -15,24 +15,6 @@
 
 The purpose of **LogMeIn** is to provide a challenging experience that simulates an "escape room" style puzzle. Users must complete several checks and pass specific conditions to proceed. Each check verifies a critical system setting (e.g., battery level, screen orientation, proximity) before they can continue. This app is designed to make the login process more difficult, requiring users to engage with various aspects of their device's settings and pass all challenges to proceed.
 
-## Installation
-
-To install **LogMeIn** on your Android device, follow these steps:
-
-1. **Clone the repository**:
-   ```bash
-   git clone https://github.com/Itay-Biton/LogMeIn.git
-   ```
-
-2. **Navigate to the project directory**:
-   ```bash
-   cd LogMeIn
-   ```
-
-3. **Open the project in Android Studio**.
-
-4. **Build and run the project** on your Android device.
-
 ## Gameplay
 
 **LogMeIn** doesn't follow the traditional "gameplay" model, but here’s how users interact with the app:
@@ -89,6 +71,24 @@ To install **LogMeIn** on your Android device, follow these steps:
 9. **Dynamic Continue Button**:
    - The "Continue" button will only become enabled when all checks pass.
    - Make sure all conditions (screen time, Wi-Fi, volume, battery, proximity, password) are correct before the button becomes active.
+
+## Installation
+
+To install **LogMeIn** on your Android device, follow these steps:
+
+1. **Clone the repository**:
+   ```bash
+   git clone https://github.com/Itay-Biton/LogMeIn.git
+   ```
+
+2. **Navigate to the project directory**:
+   ```bash
+   cd LogMeIn
+   ```
+
+3. **Open the project in Android Studio**.
+
+4. **Build and run the project** on your Android device.
 
 ## Contact
 
