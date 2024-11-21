@@ -43,8 +43,12 @@ To install **LogMeIn** on your Android device, follow these steps:
 - **Continue Button**: The button remains disabled until all conditions are met, ensuring that the user has correctly configured their device settings.
 
 ### Screenshots and Video
-
-
+<p align="center">
+   <img src="./Screenshots/Page.png" alt="LogMeIn Page" width="200"/>
+   <a href="https://www.youtube.com/watch?v=Zy3WGDr95Jc">
+    <img src="https://img.youtube.com/vi/Zy3WGDr95Jc/0.jpg" alt="Watch the video" width="400">
+   </a>
+</p>
 
 ### How to Pass Each Check (9 Checks)
 
