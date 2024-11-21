@@ -21,7 +21,7 @@ To install **LogMeIn** on your Android device, follow these steps:
 
 1. **Clone the repository**:
    ```bash
-   git clone https://github.com/itay-biton/LogMeIn.git
+   git clone https://github.com/Itay-Biton/LogMeIn.git
    ```
 
 2. **Navigate to the project directory**:
@@ -41,7 +41,11 @@ To install **LogMeIn** on your Android device, follow these steps:
 - **Slider**: Users should modify the slider position based on the current battery level of their device.
 - **Password Input**: Users must enter a correct password to proceed. The password check is one of the conditions that must be met before the "Continue" button is enabled.
 - **Continue Button**: The button remains disabled until all conditions are met, ensuring that the user has correctly configured their device settings.
-  
+
+### Screenshots and Video
+
+
+
 ### How to Pass Each Check (9 Checks)
 
 1. **Screen Time Monitoring**:
@@ -82,18 +86,14 @@ To install **LogMeIn** on your Android device, follow these steps:
 
 ## Contact
 
-If you have any questions or feedback, feel free to reach out to me at [itaybit10@gmail.com].
+If you have any questions or feedback, don't hesitate to get in touch via [email](mailto:itaybit10@gmail.com).
 
 ## License and Copyright
 
 © 2024 Itay Biton. All rights reserved.
 
-This project is owned by **Itay Biton**. Any unauthorized reproduction, modification, distribution, or use of this project, in whole or in part, is strictly prohibited without explicit permission from the author.
+This project is owned by Itay Biton. Any unauthorized reproduction, modification, distribution, or use of this project, in whole or in part, is strictly prohibited without explicit permission from the author.
 
-For academic purposes or personal review, please ensure proper credit is given to **Itay Biton**, and include a link to the original repository.
+For academic purposes or personal review, please ensure proper credit is given to Itay Biton, and include a link to the original repository.
 
 This project is intended for portfolio demonstration purposes only and must not be duplicated or repurposed without permission. If you're interested in collaborating or using parts of this project for educational reasons, please contact me directly.
-
-## Note to Recruiters
-
-Please note that this project is part of my professional portfolio and should not be copied or reused. If you’re interested in my work or would like to discuss potential job opportunities, feel free to reach out via the provided email. I am open to exploring new projects and opportunities.
