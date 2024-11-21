@@ -44,9 +44,9 @@ To install **LogMeIn** on your Android device, follow these steps:
 
 ### Screenshots and Video
 <p align="center">
-   <img src="./Page.png" alt="LogMeIn Page" hight="500"/>
-   <a href="https://youtube.com/shorts/_IVv6o5ZVlQ?feature=share">
-    <img src="https://youtube.com/shorts/_IVv6o5ZVlQ?feature=share/0.jpg" alt="Watch the video" hight="500">
+   <img src="./Page.png" alt="LogMeIn Page" width="500"/>
+   <a href="https://youtube.com/shorts/_IVv6o5ZVlQ">
+    <img src="https://youtube.com/shorts/_IVv6o5ZVlQ/0.jpg" alt="Watch the video" width="500">
    </a>
 </p>
 
