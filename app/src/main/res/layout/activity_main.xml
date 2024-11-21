@@ -1,0 +1,248 @@
+<?xml version="1.0" encoding="utf-8"?>
+<ScrollView
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:padding="16dp"
+    tools:context=".MainActivity">
+
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
+
+        <!-- 1. Circle for Screen Time -->
+        <ImageView
+            android:id="@+id/circleScreenTime"
+            android:layout_width="20dp"
+            android:layout_height="20dp"
+            android:layout_marginEnd="20dp"
+            android:layout_marginTop="32dp"
+            android:src="@drawable/red_circle"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent"
+            app:layout_constraintEnd_toStartOf="@+id/circlePower"
+            app:layout_constraintHorizontal_chainStyle="packed" />
+
+        <ImageView
+            android:id="@+id/ic_ScreenTime"
+            android:layout_width="20dp"
+            android:layout_height="20dp"
+            android:layout_marginEnd="20dp"
+            android:layout_marginTop="32dp"
+            android:src="@drawable/ic_screen_time"
+            app:layout_constraintStart_toStartOf="@+id/circleScreenTime"
+            app:layout_constraintTop_toBottomOf="@+id/circleScreenTime"
+            app:layout_constraintEnd_toStartOf="@+id/circlePower"
+            app:layout_constraintHorizontal_chainStyle="packed"/>
+
+
+        <!-- 2. Circle for Power Connection -->
+        <ImageView
+            android:id="@+id/circlePower"
+            android:layout_width="20dp"
+            android:layout_height="20dp"
+            android:layout_marginEnd="20dp"
+            android:src="@drawable/red_circle"
+            app:layout_constraintStart_toEndOf="@+id/circleScreenTime"
+            app:layout_constraintTop_toTopOf="@+id/circleScreenTime"
+            app:layout_constraintEnd_toStartOf="@+id/circleSlider" />
+
+        <ImageView
+            android:id="@+id/ic_Power"
+            android:layout_width="20dp"
+            android:layout_height="20dp"
+            android:layout_marginEnd="20dp"
+            android:src="@drawable/ic_power"
+            app:layout_constraintStart_toStartOf="@+id/circlePower"
+            app:layout_constraintTop_toTopOf="@+id/ic_ScreenTime"
+            app:layout_constraintEnd_toStartOf="@+id/circleSlider" />
+
+        <!-- 3. Circle for Slider -->
+        <ImageView
+            android:id="@+id/circleSlider"
+            android:layout_width="20dp"
+            android:layout_height="20dp"
+            android:layout_marginEnd="20dp"
+            android:src="@drawable/red_circle"
+            app:layout_constraintStart_toEndOf="@+id/circlePower"
+            app:layout_constraintTop_toTopOf="@+id/circleScreenTime"
+            app:layout_constraintEnd_toStartOf="@+id/circleVolume" />
+
+        <ImageView
+            android:id="@+id/ic_Slider"
+            android:layout_width="20dp"
+            android:layout_height="20dp"
+            android:layout_marginEnd="20dp"
+            android:src="@drawable/ic_slider"
+            app:layout_constraintStart_toStartOf="@+id/circleSlider"
+            app:layout_constraintTop_toTopOf="@+id/ic_ScreenTime"
+            app:layout_constraintEnd_toStartOf="@+id/circleVolume" />
+
+        <!-- 4. Circle for Volume -->
+        <ImageView
+            android:id="@+id/circleVolume"
+            android:layout_width="20dp"
+            android:layout_height="20dp"
+            android:layout_marginEnd="20dp"
+            android:src="@drawable/red_circle"
+            app:layout_constraintStart_toEndOf="@+id/circleSlider"
+            app:layout_constraintTop_toTopOf="@+id/circleScreenTime"
+            app:layout_constraintEnd_toStartOf="@+id/circlePassword" />
+
+        <ImageView
+            android:id="@+id/ic_Volume"
+            android:layout_width="20dp"
+            android:layout_height="20dp"
+            android:layout_marginEnd="20dp"
+            android:src="@drawable/ic_volume"
+            app:layout_constraintStart_toStartOf="@+id/circleVolume"
+            app:layout_constraintTop_toTopOf="@+id/ic_ScreenTime"
+            app:layout_constraintEnd_toStartOf="@+id/circlePassword" />
+
+        <!-- 5. Circle for Password -->
+        <ImageView
+            android:id="@+id/circlePassword"
+            android:layout_width="20dp"
+            android:layout_height="20dp"
+            android:layout_marginEnd="20dp"
+            android:src="@drawable/red_circle"
+            app:layout_constraintStart_toEndOf="@+id/circleVolume"
+            app:layout_constraintTop_toTopOf="@+id/circleScreenTime"
+            app:layout_constraintEnd_toStartOf="@+id/circleWifi" />
+
+        <ImageView
+            android:id="@+id/ic_Password"
+            android:layout_width="20dp"
+            android:layout_height="20dp"
+            android:layout_marginEnd="20dp"
+            android:src="@drawable/ic_password"
+            app:layout_constraintStart_toStartOf="@+id/circlePassword"
+            app:layout_constraintTop_toTopOf="@+id/ic_ScreenTime"
+            app:layout_constraintEnd_toStartOf="@+id/circleWifi" />
+
+        <!-- 6. Circle for WiFi -->
+        <ImageView
+            android:id="@+id/circleWifi"
+            android:layout_width="20dp"
+            android:layout_height="20dp"
+            android:layout_marginEnd="20dp"
+            android:src="@drawable/red_circle"
+            app:layout_constraintStart_toEndOf="@+id/circlePassword"
+            app:layout_constraintTop_toTopOf="@+id/circleScreenTime"
+            app:layout_constraintEnd_toStartOf="@+id/circleSettings" />
+
+        <ImageView
+            android:id="@+id/ic_Wifi"
+            android:layout_width="20dp"
+            android:layout_height="20dp"
+            android:layout_marginEnd="20dp"
+            android:src="@drawable/ic_internet"
+            app:layout_constraintStart_toStartOf="@+id/circleWifi"
+            app:layout_constraintTop_toTopOf="@+id/ic_ScreenTime"
+            app:layout_constraintEnd_toStartOf="@+id/circleSettings" />
+
+        <!-- 7. Circle for Settings check -->
+        <ImageView
+            android:id="@+id/circleSettings"
+            android:layout_width="20dp"
+            android:layout_height="20dp"
+            android:layout_marginEnd="20dp"
+            android:src="@drawable/red_circle"
+            app:layout_constraintStart_toEndOf="@+id/circleWifi"
+            app:layout_constraintTop_toTopOf="@+id/circleScreenTime"
+            app:layout_constraintEnd_toStartOf="@+id/circleLandscape" />
+
+        <ImageView
+            android:id="@+id/ic_Settings"
+            android:layout_width="20dp"
+            android:layout_height="20dp"
+            android:layout_marginEnd="20dp"
+            android:src="@drawable/ic_settings"
+            app:layout_constraintStart_toStartOf="@+id/circleSettings"
+            app:layout_constraintTop_toTopOf="@+id/ic_ScreenTime"
+            app:layout_constraintEnd_toStartOf="@+id/ic_Landscape" />
+
+        <!-- 8. Circle for Landscape -->
+        <ImageView
+            android:id="@+id/circleLandscape"
+            android:layout_width="20dp"
+            android:layout_height="20dp"
+            android:layout_marginEnd="20dp"
+            android:src="@drawable/red_circle"
+            app:layout_constraintStart_toEndOf="@+id/circleSettings"
+            app:layout_constraintTop_toTopOf="@+id/circleScreenTime"
+            app:layout_constraintEnd_toStartOf="@+id/circleProximity" />
+
+        <ImageView
+            android:id="@+id/ic_Landscape"
+            android:layout_width="20dp"
+            android:layout_height="20dp"
+            android:layout_marginEnd="20dp"
+            android:src="@drawable/ic_landscape"
+            app:layout_constraintStart_toStartOf="@+id/circleLandscape"
+            app:layout_constraintTop_toTopOf="@+id/ic_ScreenTime"
+            app:layout_constraintEnd_toStartOf="@+id/circleProximity" />
+
+        <!-- 9. Circle for Proximity -->
+        <ImageView
+            android:id="@+id/circleProximity"
+            android:layout_width="20dp"
+            android:layout_height="20dp"
+            android:src="@drawable/red_circle"
+            app:layout_constraintStart_toEndOf="@+id/circleLandscape"
+            app:layout_constraintTop_toTopOf="@+id/circleScreenTime"
+            app:layout_constraintEnd_toEndOf="parent" />
+
+        <ImageView
+            android:id="@+id/ic_Proximity"
+            android:layout_width="20dp"
+            android:layout_height="20dp"
+            android:src="@drawable/ic_sensor"
+            app:layout_constraintStart_toStartOf="@+id/circleProximity"
+            app:layout_constraintTop_toTopOf="@+id/ic_ScreenTime"
+            app:layout_constraintEnd_toEndOf="@+id/circleProximity" />
+
+        <!-- Slider for Battery Condition -->
+        <SeekBar
+            android:id="@+id/slider"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="32dp"
+            android:max="100"
+            android:progress="50"
+            app:layout_constraintTop_toBottomOf="@+id/ic_ScreenTime"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintBottom_toTopOf="@+id/passwordInput" />
+
+        <!-- Password input field -->
+        <EditText
+            android:id="@+id/passwordInput"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="32dp"
+            android:hint="Enter password"
+            android:inputType="textPassword"
+            app:layout_constraintTop_toBottomOf="@+id/slider"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintBottom_toTopOf="@+id/continueButton" />
+
+        <!-- Continue Button -->
+        <Button
+            android:id="@+id/continueButton"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="32dp"
+            android:enabled="false"
+            android:text="Continue"
+            app:layout_constraintTop_toBottomOf="@+id/passwordInput"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintBottom_toBottomOf="parent" />
+
+    </androidx.constraintlayout.widget.ConstraintLayout>
+
+</ScrollView>
