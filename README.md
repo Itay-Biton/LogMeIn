@@ -35,35 +35,34 @@ The purpose of **LogMeIn** is to provide a challenging experience that simulates
 
 ### How to Pass Each Check (7 Checks)
 
-4. **Wi-Fi Network**:
-   - Connect the device to specific Wi-Fi network (itay's iPhone).
-   - The circle will turn green once a stable Wi-Fi connection is detected.
-
-5. **Notification receiver**:
-- 
--
-
-6. **Background App Monitoring**:
--
--
-
-3. **Volume Check**:
-   - Adjust the volume of the device to at least 80% of the max volume.
-   - The circle will turn green when the volume is within the acceptable range.
 
 1. **Battery Charging**:
    - Plug the device into a charger or check if the battery is fully charged.
    - The circle will turn green when the device is charging or has an acceptable battery level.
 
-7. **Proximity Sensor**:
-   - Hold the device near your face or close to a surface that can trigger the proximity sensor.
-   - The circle will turn green when the proximity sensor detects the device is close.
-
 2. **Slider for Battery Condition**:
    - Adjust the slider based on the current battery level (or higher).
    - The slider will visually represent the battery condition and will update accordingly.
 
-8. **Dynamic Continue Button**:
+3. **Volume Check**:
+   - Adjust the volume of the device to at least 80% of the max volume.
+   - The circle will turn green when the volume is within the acceptable range.
+
+4. **Wi-Fi Network**:
+   - Connect the device to specific Wi-Fi network (itay's iPhone).
+   - The circle will turn green once a stable Wi-Fi connection is detected.
+
+5. **Notification receiver**:
+   - The circle will turn green once a notification with the text "Password" received.
+
+7. **Background App Monitoring**:
+   - The circle will turn green if the 'Settings' app was opened in the last 60 seconds.
+
+9. **Proximity Sensor**:
+   - Hold the device near your face or close to a surface that can trigger the proximity sensor.
+   - The circle will turn green when the proximity sensor detects the device is close.
+
+10. **Dynamic Continue Button**:
    - The "Continue" button will only become enabled when all checks pass.
    - Make sure all conditions (screen time, Wi-Fi, volume, battery, proximity, password) are correct before the button becomes active.
 
