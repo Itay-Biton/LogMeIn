@@ -1,25 +1,29 @@
 package com.example.logmein;
 
+import android.Manifest;
+import android.app.AppOpsManager;
 import android.app.usage.UsageStats;
 import android.app.usage.UsageStatsManager;
 import android.content.BroadcastReceiver;
+import android.content.ComponentName;
 import android.content.Context;
 import android.content.Intent;
 import android.content.IntentFilter;
-import android.content.res.Configuration;
+import android.content.pm.PackageManager;
 import android.hardware.Sensor;
 import android.hardware.SensorEvent;
 import android.hardware.SensorEventListener;
 import android.hardware.SensorManager;
 import android.media.AudioManager;
+import android.net.Uri;
 import android.net.wifi.WifiInfo;
 import android.net.wifi.WifiManager;
 import android.os.BatteryManager;
+import android.os.Build;
 import android.os.Bundle;
 import android.os.Handler;
-import android.os.SystemClock;
+import android.provider.Settings;
 import android.widget.Button;
-import android.widget.EditText;
 import android.widget.SeekBar;
 import android.widget.Toast;
 import android.widget.ImageView;
@@ -29,23 +33,25 @@ import androidx.appcompat.app.AppCompatActivity;
 import java.util.List;
 
 public class MainActivity extends AppCompatActivity {
-
     // UI Components
     private SeekBar slider;
-    private EditText passwordInput;
     private Button continueButton;
-    private ImageView circleScreenTime, circleVolume, circleWifi, circleProximity, circleLandscape, circleSlider, circlePassword, circlePower, circleSettings;
+    private ImageView circleVolume, circleWifi, circleProximity, circleSlider, circlePower, circleSettings, circleNotification;
 
     private SensorManager sensorManager;
     private Sensor proximitySensor;
     private BatteryManager batteryManager;
-    private long screenOnTimeStart;
     private AudioManager audioManager;
     private UsageStatsManager usageStatsManager;
 
-    private boolean isProximityNear = false; // Track proximity state
+    private boolean isProximityNear = false;
     private BroadcastReceiver batteryReceiver;
     private BroadcastReceiver wifiReceiver;
+    private BroadcastReceiver notificationReceiver;
+
+    private boolean checkedNotificationAccess = false;
+    private boolean checkedUsageStats = false;
+    private boolean checkedLocation = false;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -54,26 +60,21 @@ public class MainActivity extends AppCompatActivity {
 
         // Initialize UI components
         slider = findViewById(R.id.slider);
-        passwordInput = findViewById(R.id.passwordInput);
         continueButton = findViewById(R.id.continueButton);
 
         // Initialize circles for checks
-        circleScreenTime = findViewById(R.id.circleScreenTime);
         circleVolume = findViewById(R.id.circleVolume);
         circleWifi = findViewById(R.id.circleWifi);
         circleProximity = findViewById(R.id.circleProximity);
-        circleLandscape = findViewById(R.id.circleLandscape);
         circleSlider = findViewById(R.id.circleSlider);
-        circlePassword = findViewById(R.id.circlePassword);
         circlePower = findViewById(R.id.circlePower);
         circleSettings = findViewById(R.id.circleSettings);
+        circleNotification = findViewById(R.id.circleNotification);
 
         // Initialize the SensorManager
         sensorManager = (SensorManager) getSystemService(SENSOR_SERVICE);
-
         // Get the Proximity Sensor
         proximitySensor = sensorManager.getDefaultSensor(Sensor.TYPE_PROXIMITY);
-
         // Register the Sensor Event Listener for proximity sensor
         if (proximitySensor != null)
             sensorManager.registerListener(sensorEventListener, proximitySensor, SensorManager.SENSOR_DELAY_UI);
@@ -87,10 +88,8 @@ public class MainActivity extends AppCompatActivity {
             public void onProgressChanged(SeekBar seekBar, int progress, boolean fromUser) {
                 validateConditions();
             }
-
             @Override
             public void onStartTrackingTouch(SeekBar seekBar) {}
-
             @Override
             public void onStopTrackingTouch(SeekBar seekBar) {}
         });
@@ -101,9 +100,6 @@ public class MainActivity extends AppCompatActivity {
         // AudioManager for volume
         audioManager = (AudioManager) getSystemService(Context.AUDIO_SERVICE);
 
-        // Track screen on time
-        screenOnTimeStart = SystemClock.elapsedRealtime();
-
         // Initially disable the continue button
         continueButton.setEnabled(false);
 
@@ -111,12 +107,56 @@ public class MainActivity extends AppCompatActivity {
         // Register BroadcastReceivers for battery and wifi
         registerBatteryReceiver();
         registerWifiReceiver();
+        registerNotificationsReceiver();
         timerHandler.post(timerRunnable);
+
+        checkNotificationAccess();
+        checkUsageStatsPermission();
+        checkLocationPermission();
     }
 
-    // Timer Handler to check screen time, settings, and volume every second
-    private Handler timerHandler = new Handler();
-    private Runnable timerRunnable = new Runnable() {
+    public void checkNotificationAccess() {
+        if (!checkedNotificationAccess) {
+            ComponentName cn = new ComponentName(this, NotificationListener.class);
+            String flat = Settings.Secure.getString(getContentResolver(), "enabled_notification_listeners");
+            if (flat == null || !flat.contains(cn.flattenToString())) {
+                Intent intent = new Intent(Settings.ACTION_NOTIFICATION_LISTENER_SETTINGS);
+                startActivity(intent);
+            }
+            checkedNotificationAccess = true;
+        }
+    }
+
+    public void checkUsageStatsPermission() {
+        if (!checkedUsageStats) {
+            AppOpsManager appOps = (AppOpsManager) getSystemService(Context.APP_OPS_SERVICE);
+            int mode = appOps.checkOpNoThrow(AppOpsManager.OPSTR_GET_USAGE_STATS, android.os.Process.myUid(), getPackageName());
+            if (mode != AppOpsManager.MODE_ALLOWED) {
+                Intent intent = new Intent(Settings.ACTION_USAGE_ACCESS_SETTINGS);
+                startActivity(intent);
+            }
+            checkedUsageStats = true;
+        }
+    }
+
+    public void checkLocationPermission() {
+        if (!checkedLocation) {
+            if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
+                if (checkSelfPermission(Manifest.permission.ACCESS_FINE_LOCATION) != PackageManager.PERMISSION_GRANTED &&
+                        checkSelfPermission(Manifest.permission.ACCESS_COARSE_LOCATION) != PackageManager.PERMISSION_GRANTED) {
+                    Intent intent = new Intent(Settings.ACTION_APPLICATION_DETAILS_SETTINGS);
+                    Uri uri = Uri.fromParts("package", getPackageName(), null);
+                    intent.setData(uri);
+                    startActivity(intent);
+                }
+            }
+            checkedLocation = true;
+        }
+    }
+
+    // Timer Handler to check settings, and volume every second
+    private final Handler timerHandler = new Handler();
+    private final Runnable timerRunnable = new Runnable() {
         @Override
         public void run() {
             validateConditions();
@@ -151,39 +191,38 @@ public class MainActivity extends AppCompatActivity {
         registerReceiver(wifiReceiver, wifiFilter);
     }
 
-    // 1. Check if the screen has been on for a minimum amount of time
-    private boolean checkScreenOnTime() {
-        long elapsedOnTime = SystemClock.elapsedRealtime() - screenOnTimeStart;
-        return elapsedOnTime >= 10000; // Must be 10 seconds or more
+    // Register receiver to listen for Wi-Fi connection changes
+    private void registerNotificationsReceiver() {
+        notificationReceiver = new BroadcastReceiver() {
+            @Override
+            public void onReceive(Context context, Intent intent) {
+                validateConditions();
+            }
+        };
+        registerReceiver(notificationReceiver, new IntentFilter(NotificationListener.NOTIFICATION_POSTED), Context.RECEIVER_NOT_EXPORTED);
     }
 
-    // 2. Power check: Check if the device is connected to power (charging)
+    // 1. Power check: Check if the device is connected to power (charging)
     private boolean checkPower() {
         Intent batteryStatus = registerReceiver(null, new IntentFilter(Intent.ACTION_BATTERY_CHANGED));
         int status = batteryStatus.getIntExtra(BatteryManager.EXTRA_STATUS, -1);
         return status == BatteryManager.BATTERY_STATUS_CHARGING || status == BatteryManager.BATTERY_STATUS_FULL; // Charging or full battery
     }
 
-    // 3. Slider condition: Slider needs to be at least at the battery level
+    // 2. Slider condition: Slider needs to be at least at the battery level
     private boolean checkSliderCondition() {
         int batteryLevel = batteryManager.getIntProperty(BatteryManager.BATTERY_PROPERTY_CAPACITY);
         return slider.getProgress() >= batteryLevel;
     }
 
-    // 4. Check volume level: Volume must be at least 80% of the maximum volume
+    // 3. Check volume level: Volume must be at least 80% of the maximum volume
     private boolean checkVolumeLevel() {
         int maxVolume = audioManager.getStreamMaxVolume(AudioManager.STREAM_MUSIC);
         int currentVolume = audioManager.getStreamVolume(AudioManager.STREAM_MUSIC);
         return currentVolume >= (maxVolume * 0.8);
     }
 
-    // 5. Password check: The password should be correct
-    private boolean checkPassword() {
-        String enteredPassword = passwordInput.getText().toString();
-        return "hello".equals(enteredPassword);
-    }
-
-    // 6. WIFI check: Wifi should be connected to "itay's iPhone"
+    // 4. WIFI check: Wifi should be connected to "itay's iPhone"
     private boolean checkWifiConnection() {
         WifiManager wifiManager = (WifiManager) this.getSystemService(Context.WIFI_SERVICE);
         if (wifiManager != null && wifiManager.isWifiEnabled()) {
@@ -197,10 +236,10 @@ public class MainActivity extends AppCompatActivity {
         return false;
     }
 
-    // 7. Background check: Setting should be opened in the last 30 seconds
+    // 5. Background check: Setting should be opened in the last 60 seconds
     private boolean checkBackgroundApps() {
         long currentTime = System.currentTimeMillis();
-        long startTime = currentTime - 30 * 1000;  // Check the last 30 seconds
+        long startTime = currentTime - 60 * 1000;  // Check the last 60 seconds
 
         List<UsageStats> stats = usageStatsManager.queryUsageStats(UsageStatsManager.INTERVAL_BEST, startTime, currentTime);
         if (stats != null) {
@@ -215,12 +254,15 @@ public class MainActivity extends AppCompatActivity {
         return false;
     }
 
-    // 8. Landscape mode: Phone needs to be sideways
-    private boolean checkLandscapeMode() {
-        return this.getResources().getConfiguration().orientation == Configuration.ORIENTATION_LANDSCAPE;
+    // 6. Notification check
+    private boolean checkNotification() {
+        if (NotificationListener.lastPackageName != null) {
+            return NotificationListener.lastNotificationText.equalsIgnoreCase("Password");
+        }
+        return false;
     }
 
-    // 9. Proximity check: The proximity sensor should detect something close
+    // 7. Proximity check: The proximity sensor should detect something close
     private boolean checkProximitySensor() {
         return isProximityNear; // Return the current proximity state tracked by the listener
     }
@@ -229,26 +271,22 @@ public class MainActivity extends AppCompatActivity {
     private void validateConditions() {
         boolean conditionsMet = true;
 
-        conditionsMet &= checkScreenOnTime(); // Check if screen has been on for 10+ seconds
         conditionsMet &= checkPower(); // Check if device connected to power
         conditionsMet &= checkSliderCondition(); // Check if slider is above battery level
         conditionsMet &= checkVolumeLevel(); // Check if volume is >= 80% of max volume
-        conditionsMet &= checkPassword(); // Check if password is correct
         conditionsMet &= checkWifiConnection(); // Check if Wi-Fi is connected to the target network
-        conditionsMet &= checkBackgroundApps(); // Check if settings app was opened in the last 30 seconds
-        conditionsMet &= checkLandscapeMode(); // Check if in landscape mode
+        conditionsMet &= checkBackgroundApps(); // Check if settings app was opened in the last 60 seconds
+        conditionsMet &= checkNotification(); // Check if you received a notification contains the word "password"
         conditionsMet &= checkProximitySensor(); // Check if proximity sensor detects near object
 
         // Update circles based on conditions
-        updateCircle(circleScreenTime, checkScreenOnTime());
+        updateCircle(circlePower, checkPower());
+        updateCircle(circleSlider, checkSliderCondition());
         updateCircle(circleVolume, checkVolumeLevel());
         updateCircle(circleWifi, checkWifiConnection());
-        updateCircle(circleProximity, checkProximitySensor());
-        updateCircle(circleLandscape, checkLandscapeMode());
-        updateCircle(circleSlider, checkSliderCondition());
-        updateCircle(circlePassword, checkPassword());
-        updateCircle(circlePower, checkPower());
         updateCircle(circleSettings, checkBackgroundApps());
+        updateCircle(circleNotification, checkNotification());
+        updateCircle(circleProximity, checkProximitySensor());
 
         // Enable or disable the "Continue" button based on the conditions
         continueButton.setEnabled(conditionsMet);
@@ -279,8 +317,7 @@ public class MainActivity extends AppCompatActivity {
 
     // Handle the Continue button click
     public void onContinueButtonClicked() {
-        Toast.makeText(this, "Conditions met! Proceeding...", Toast.LENGTH_SHORT).show();
-        // Add code to handle what happens after pressing continue
+        Toast.makeText(this, "Conditions met!", Toast.LENGTH_SHORT).show();
     }
 
     @Override
@@ -289,16 +326,19 @@ public class MainActivity extends AppCompatActivity {
         sensorManager.unregisterListener(sensorEventListener);
         unregisterReceiver(batteryReceiver);
         unregisterReceiver(wifiReceiver);
+        unregisterReceiver(notificationReceiver);
         timerHandler.removeCallbacks(timerRunnable);
     }
 
     @Override
     protected void onResume() {
         super.onResume();
+
         if (proximitySensor != null)
             sensorManager.registerListener(sensorEventListener, proximitySensor, SensorManager.SENSOR_DELAY_UI);
-        registerReceiver(batteryReceiver, new IntentFilter(Intent.ACTION_BATTERY_CHANGED));
-        registerReceiver(wifiReceiver, new IntentFilter(WifiManager.WIFI_STATE_CHANGED_ACTION));
+        registerBatteryReceiver();
+        registerWifiReceiver();
+        registerNotificationsReceiver();
         timerHandler.post(timerRunnable);
     }
 }
