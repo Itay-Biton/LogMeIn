@@ -29,7 +29,7 @@ The purpose of **LogMeIn** is to provide a challenging experience that simulates
 </p>
 <p align="center">
    <a href="https://youtube.com/shorts/pRTsCHXi1MA?si=r-ejw7-6CcBskHZC">
-    <img src="./Page.png" alt="Watch the video" width="500">
+    <img src="./Page.jpg" alt="Watch the video" width="500">
    </a>
 </p>
 
