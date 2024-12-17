@@ -55,14 +55,14 @@ The purpose of **LogMeIn** is to provide a challenging experience that simulates
 5. **Notification receiver**:
    - The circle will turn green once a notification with the text "Password" received.
 
-7. **Background App Monitoring**:
+6. **Background App Monitoring**:
    - The circle will turn green if the 'Settings' app was opened in the last 60 seconds.
 
-9. **Proximity Sensor**:
+7. **Proximity Sensor**:
    - Hold the device near your face or close to a surface that can trigger the proximity sensor.
    - The circle will turn green when the proximity sensor detects the device is close.
 
-10. **Dynamic Continue Button**:
+8. **Dynamic Continue Button**:
    - The "Continue" button will only become enabled when all checks pass.
    - Make sure all conditions (screen time, Wi-Fi, volume, battery, proximity, password) are correct before the button becomes active.
 
